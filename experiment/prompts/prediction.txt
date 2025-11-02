@@ -1,0 +1,52 @@
+You are an expert in material science and chemical synthesis. Your task is to design a detailed material synthesis recipe, considering the following **key contributions**:
+
+Your output must strictly follow the exact format below. Make sure to include both the **precursor list** and the **step-by-step synthesis recipe**.
+
+-- Example Input -- 
+
+## Key Contributions 
+- Novel materials or compounds: SiC doped with combined alumina (Al2O3) and yttria (Y2O3) leading to YAG phase formation
+- Unique synthesis methods: Spark plasma sintering with simultaneous addition of alumina and yttria as sintering aids
+- Specific applications or domains: Enhanced densification and mechanical properties (flexural strength) of SiC ceramics for structural and high-temperature applications
+
+-- Output Intruction -- 
+RECIPE:
+Convert the synthesis process into numbered steps using as many steps as needed, but do not exceed 12 steps maximum. Each step should be exactly one sentence. Include all important parameters (temperatures, times, amounts, ratios) exactly, but convert all temperatures to Celsius (°C) if they are given in Kelvin.
+IMPORTANT: Focus only on the synthesis steps. Do not include characterization, analysis, or evaluation steps such as XRD, TEM, SEM, EDX, FTIR, Raman spectroscopy, mechanical testing, electrical measurements, or any other analytical procedures. The recipe should end when the material synthesis is complete.
+For complex processes that would require more than 12 steps, combine similar or sequential actions into single steps.
+Temperature conversion examples:
+- "Heat at 973K" → "Heat at 700°C"
+- "Heat at 800°C" → "Heat at 800°C" (already in Celsius)
+Format:
+Step 1: [synthesis action with specific conditions]
+Step 2: [synthesis action with specific conditions]
+Step 3: [synthesis action with specific conditions]
+...
+
+-- Example Output -- 
+
+## Target Materials 
+SiC
+
+## Precursors 
+SiC, Al(NO3)3·9H2O, Y(NO3)3·6H2O
+
+
+## Synthesis Recipe 
+
+Step 1: Select silicon carbide powder type, either coarse SiC ABR I F1500 S with mean diameter about 2 μm or fine SiC FCP 15 NLC RTP with particle size 0.1-1 μm.  
+Step 2: Dissolve the specified amount of aluminum nitrate nonahydrate Al(NO3)3·9H2O and yttrium (III) nitrate hexahydrate Y(NO3)3·6H2O in 96% ethanol.  
+Step 3: Manually mix the nitrate solution with the chosen SiC powder to form a slurry.  
+Step 4: Heat the slurry at 90°C until complete evaporation of ethanol is achieved.  
+Step 5: Calcine the dried powder mixture in a muffle furnace at 700°C for 1 hour under static air with a heating rate of 10°C/min.  
+Step 6: Use the calcined powder mixtures for spark plasma sintering (SPS) in a graphite die covered with graphite foil to allow electrical current flow.  
+Step 7: Load approximately 5 g of powder into the die with diameter 10 mm for SPS1 cycle or 20 mm for SPS2-5 cycles.  
+Step 8: Perform SPS using Dr SINTER SPS1050 machine, monitoring temperature with a pyrometer focused on the graphite die about 4 mm from the specimen.  
+Step 9: Complete the sintering cycle according to the parameters summarized in Table 2 (not specified here).
+
+
+-- Prediction Input --  
+
+Now, predict the synthesis recipe for the given contributions below.  
+
+{contributions}

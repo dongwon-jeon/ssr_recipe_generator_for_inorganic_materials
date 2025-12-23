@@ -12,7 +12,7 @@ Run in your environment to predict the synthesis recipe.
 streamlit run demo.py
 ```
 Or try it on our website:     
-(To be update)
+[ssr_recipe_generator site](https://ssr.recipe-generator.site/)
 
 * Cite: (To be update)      
 * Contact: jdwjyl2007@ajou.ac.kr

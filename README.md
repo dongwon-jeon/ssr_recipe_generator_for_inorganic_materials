@@ -4,7 +4,7 @@ To be update.
 ---
 
 ## Usage 
-### Local environment: 
+## Local environment: 
 
 Use python=3.11 and install the required packages using the following command:     
 ```
@@ -26,11 +26,11 @@ streamlit run demo.py
 
         
 
-### Or try it on our website:     
+## Or try it on our website:     
 [https://ssr.recipe-generator.site/](https://ssr.recipe-generator.site/)        
     ***(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)***
 
----
 
+## Contact
 * Cite: (To be update)      
 * Contact: jdwjyl2007@ajou.ac.kr

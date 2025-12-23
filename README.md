@@ -13,12 +13,12 @@ streamlit run demo.py
 ```
 
 
-1. Enter your personal **OpenAI** API key.
-2. Click the ***Update*** key button.
+1. Enter your personal ```OpenAI``` API key.
+2. Click the ```Update``` key button.
 3. Provide the information needed for prediction (e.g., materials, synthesis technique, application, etc.).
 4. (Optional) Adjust the number of data entries used for RAG, or upload additional reference papers (PDFs).
-5. Click ***Recommend*** button at the bottom left to generate a recipe
-6. Click ***Clear*** Conversation to start a new prediction, or continue with follow-up Q&A using the ***chat box*** below the generated response. 
+5. Click ```Recommend``` button at the bottom left to generate a recipe
+6. Click ```Clear Conversation``` to start a new prediction, or continue with follow-up Q&A using the ```chat box``` below the generated response. 
 
 
         

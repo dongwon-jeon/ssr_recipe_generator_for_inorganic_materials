@@ -11,7 +11,7 @@ Run in your environment to predict the synthesis recipe.
 ```
 streamlit run demo.py
 ```
-1. Enter your personal **OpenAI** API key. 
+1. Enter your personal **OpenAI** API key.         
     <u><strong>(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)</u></strong>
 2. Click the ***Update*** key button.
 3. Provide the information needed for prediction (e.g., materials, synthesis technique, application, etc.).

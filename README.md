@@ -13,8 +13,7 @@ streamlit run demo.py
 ```
 
 
-1. Enter your personal **OpenAI** API key.         
-    <u>(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)</u>
+1. Enter your personal **OpenAI** API key.
 2. Click the ***Update*** key button.
 3. Provide the information needed for prediction (e.g., materials, synthesis technique, application, etc.).
 4. (Optional) Adjust the number of data entries used for RAG, or upload additional reference papers (PDFs).
@@ -25,7 +24,9 @@ streamlit run demo.py
         
 
 Or try it on our website:     
-[https://ssr.recipe-generator.site/](https://ssr.recipe-generator.site/)
+[https://ssr.recipe-generator.site/](https://ssr.recipe-generator.site/)        
+
+    ***(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)***
 
 ---
 

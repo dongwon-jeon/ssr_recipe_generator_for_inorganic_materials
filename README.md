@@ -31,6 +31,6 @@ streamlit run demo.py
     ***(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)***
 
 
-## Contact
+## Contact info
 * Cite: (To be update)      
-* Contact: jdwjyl2007@ajou.ac.kr
+* e-mail: jdwjyl2007@ajou.ac.kr

@@ -1,9 +1,11 @@
 # A Recipe Generator for Inorganic Solid-Phase Materials Synthesis
 To be update.
 
+---
+
 ## Usage 
 ### Local environment: 
----
+
 Use python=3.11 and install the required packages using the following command:     
 ```
 pip install -r requirements.txt

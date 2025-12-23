@@ -2,7 +2,7 @@
 To be update.
 
 ## Usage
-----------
+---
 Use python=3.11 and install the required packages using the following command:     
 ```
 pip install -r requirements.txt
@@ -22,10 +22,12 @@ streamlit run demo.py
 6. Click ***Clear*** Conversation to start a new prediction, or continue with follow-up Q&A using the ***chat box*** below the generated response. 
 
 
-
+        
 
 Or try it on our website:     
 [https://ssr.recipe-generator.site/](https://ssr.recipe-generator.site/)
+
+---
 
 * Cite: (To be update)      
 * Contact: jdwjyl2007@ajou.ac.kr

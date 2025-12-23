@@ -39,7 +39,7 @@ with st.sidebar, st.form("recipe_form"):
     other_contstraints = st.text_area("Other Constraints", "")
 
     top_k = st.slider("Number of Retrievals", 0, 10, 5)
-    model = st.selectbox("Model", ["gpt-4o-mini", "o3-mini-high", "o1", "gpt-4.1-mini"])
+    model = st.selectbox("Model", ["gpt-4o-mini", "o3-mini-high", "o1", "gpt-4.1-mini", "gpt-5.2", "gpt-5.2-pro", "gpt-5-mini", "gpt-5"])
 
     files = st.file_uploader("Upload PDF Files", type=["pdf"], accept_multiple_files=True)
     if files:

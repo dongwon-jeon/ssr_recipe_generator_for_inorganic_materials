@@ -25,7 +25,6 @@ streamlit run demo.py
 
 Or try it on our website:     
 [https://ssr.recipe-generator.site/](https://ssr.recipe-generator.site/)        
-
     ***(The API key is used only for your request and is not saved or tracked. See ```demo.py``` for details.)***
 
 ---

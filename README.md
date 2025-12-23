@@ -1,5 +1,6 @@
 # A Recipe Generator for Inorganic Solid-Phase Materials Synthesis
 To be update.
+* Cite: (To be update)      
 
 ---
 
@@ -32,5 +33,4 @@ streamlit run demo.py
 
 
 ## Contact info
-* Cite: (To be update)      
 * e-mail: jdwjyl2007@ajou.ac.kr

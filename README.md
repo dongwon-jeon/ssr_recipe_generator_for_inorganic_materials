@@ -1,7 +1,7 @@
 # A Recipe Generator for Inorganic Solid-Phase Materials Synthesis
 To be update.
 * Cite: (To be update)      
-
+* Dataset: [https://huggingface.co/datasets/wjsehdrnfl428/dataset_for_recipe_generator](https://huggingface.co/datasets/wjsehdrnfl428/dataset_for_recipe_generator)
 ---
 
 ## Usage 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3 
+
 import os
 from litellm import batch_completion, completion
 import openai
@@ -12,9 +14,9 @@ import pandas as pd
 
 
 class RecipePredictor:
-        
 
-    def __init__(self, 
+
+    def __init__(self,
                  model="gpt-4o-mini",
                  batch_size=1,
                  max_tokens=4096,
@@ -22,6 +24,8 @@ class RecipePredictor:
                  temperature=0.0,
                  api_key=None,
                  prompt_filename: str="prompts/prediction.txt",
+                 gpt5_reasoning_effort="medium",
+                 gpt5_text_verbosity="medium"
                  ):
         self.model = model
         self.prompt_filename = prompt_filename
@@ -31,7 +35,9 @@ class RecipePredictor:
         self.client = openai.OpenAI(api_key=api_key)
         self.prediction_prompt = open(prompt_filename).read()
         self.job_description = f"material prediction job w/ {model}"
-        self.max_completion_tokens = max_completion_tokens  
+        self.max_completion_tokens = max_completion_tokens
+        self.gpt5_reasoning_effort = gpt5_reasoning_effort
+        self.gpt5_text_verbosity = gpt5_text_verbosity  
 
     def build_prompt(self, item):
         contributions, recipe = item["contribution"], item["recipe"]
@@ -44,58 +50,114 @@ class RecipePredictor:
         ]
 
     def predict_batch(self, prompts):
+        import sys
         completions = []
         model = self.model
-        if self.model.startswith("o1") or self.model.startswith("o3"):
-            batch_completion_kwargs = {"max_completion_tokens": self.max_completion_tokens}
-            if self.model == "o3-mini-high":
-                batch_completion_kwargs["reasoning_effort"] = "high"
-                model = "o3-mini"
-            elif self.model == "o3-mini-low":
-                batch_completion_kwargs["reasoning_effort"] = "low"
-                model = "o3-mini"
-        else:
-            batch_completion_kwargs = {"max_tokens": self.max_tokens, "temperature": self.temperature}
-        messages = batch_completion(
-            model=model,
-            messages=prompts,
-            **batch_completion_kwargs
-        )
-        contents = [message['choices'][0]['message']['content'] for message in messages]
-        completions.extend(contents)
-        return completions
+
+        try:
+            # Handle GPT-5 family models (reasoning model)
+            if self.model.startswith("gpt-5"):
+                batch_completion_kwargs = {
+                    "max_completion_tokens": self.max_completion_tokens,
+                    "reasoning_effort": self.gpt5_reasoning_effort,
+                    "verbosity": self.gpt5_text_verbosity
+                }
+                print(f"[predict_batch] GPT-5 reasoning model: {model}, kwargs={batch_completion_kwargs}", file=sys.stderr)
+
+            # Handle o1/o3 family models (reasoning models)
+            elif self.model.startswith("o1") or self.model.startswith("o3"):
+                batch_completion_kwargs = {"max_completion_tokens": self.max_completion_tokens}
+                if self.model == "o3-mini-high":
+                    batch_completion_kwargs["reasoning_effort"] = "high"
+                    model = "o3-mini"
+                elif self.model == "o3-mini-low":
+                    batch_completion_kwargs["reasoning_effort"] = "low"
+                    model = "o3-mini"
+                elif self.model == "o3-mini":
+                    batch_completion_kwargs["reasoning_effort"] = "medium"
+                print(f"[predict_batch] o1/o3 reasoning model: {model}, kwargs={batch_completion_kwargs}", file=sys.stderr)
+
+            # Handle standard GPT models (gpt-4, etc.)
+            else:
+                batch_completion_kwargs = {
+                    "max_tokens": self.max_tokens,
+                    "temperature": self.temperature
+                }
+                print(f"[predict_batch] Standard GPT model: {model}, kwargs={batch_completion_kwargs}", file=sys.stderr)
+
+            messages = batch_completion(
+                model=model,
+                messages=prompts,
+                **batch_completion_kwargs
+            )
+            contents = [message['choices'][0]['message']['content'] for message in messages]
+            completions.extend(contents)
+            print(f"[predict_batch] Successfully generated {len(completions)} completions", file=sys.stderr)
+            return completions
+        except Exception as e:
+            print(f"[predict_batch] ERROR: {type(e).__name__}: {e}", file=sys.stderr)
+            import traceback
+            traceback.print_exc(file=sys.stderr)
+            raise
 
 
     def predict_single(self, prompts):
+        import sys
         completions = []
         for prompt in prompts:
-            if self.model.startswith("o1") or self.model.startswith("o3"):
-                model = self.model
-                if self.model == "o3-mini":
-                    reasoning_effort = "medium"
-                elif self.model == "o3-mini-high":
-                    reasoning_effort = "high"
-                    model = "o3-mini"
-                elif self.model == "o3-mini-low":
-                    reasoning_effort = "low"
-                    model = "o3-mini"
-                else:
-                    reasoning_effort = None
+            try:
+                # Handle GPT-5 family models (reasoning model)
+                if self.model.startswith("gpt-5"):
+                    completion_kwargs = {
+                        "model": self.model,
+                        "messages": prompt,
+                        "max_completion_tokens": self.max_completion_tokens,
+                        "reasoning_effort": self.gpt5_reasoning_effort,
+                        "verbosity": self.gpt5_text_verbosity
+                    }
+                    print(f"[predict_single] GPT-5 reasoning model: {self.model}, kwargs: {completion_kwargs}", file=sys.stderr)
+                    message = completion(**completion_kwargs)
 
-                message = completion(
-                    model=model,
-                    messages=prompt,
-                    max_completion_tokens=self.max_completion_tokens,
-                    reasoning_effort=reasoning_effort
-                )
-            else:
-                message = completion(
-                    model=self.model,
-                    messages=prompt,
-                    max_tokens=self.max_tokens,
-                    temperature=self.temperature
-                )
-            completions.append(message['choices'][0]['message']['content'])
+                # Handle o1/o3 family models (reasoning models)
+                elif self.model.startswith("o1") or self.model.startswith("o3"):
+                    model = self.model
+                    completion_kwargs = {
+                        "model": model,
+                        "messages": prompt,
+                        "max_completion_tokens": self.max_completion_tokens
+                    }
+
+                    # Set reasoning_effort
+                    if self.model == "o3-mini":
+                        completion_kwargs["reasoning_effort"] = "medium"
+                    elif self.model == "o3-mini-high":
+                        completion_kwargs["reasoning_effort"] = "high"
+                        completion_kwargs["model"] = "o3-mini"
+                    elif self.model == "o3-mini-low":
+                        completion_kwargs["reasoning_effort"] = "low"
+                        completion_kwargs["model"] = "o3-mini"
+
+                    print(f"[predict_single] o1/o3 reasoning model: {completion_kwargs['model']}, kwargs: {completion_kwargs}", file=sys.stderr)
+                    message = completion(**completion_kwargs)
+
+                # Handle standard GPT models (gpt-4, etc.)
+                else:
+                    completion_kwargs = {
+                        "model": self.model,
+                        "messages": prompt,
+                        "max_tokens": self.max_tokens,
+                        "temperature": self.temperature
+                    }
+                    print(f"[predict_single] Standard GPT model: {self.model}, kwargs: {completion_kwargs}", file=sys.stderr)
+                    message = completion(**completion_kwargs)
+
+                completions.append(message['choices'][0]['message']['content'])
+                print(f"[predict_single] Successfully generated completion", file=sys.stderr)
+            except Exception as e:
+                print(f"[predict_single] ERROR: {type(e).__name__}: {e}", file=sys.stderr)
+                import traceback
+                traceback.print_exc(file=sys.stderr)
+                raise
         return completions
     
     def predict_batch_openai(self, prompts):
@@ -136,7 +198,7 @@ class RecipePredictor:
         else:
             predict_func = self.predict_batch if batch_size > 1 else self.predict_single
         
-        # batch iteration
+        # Batch iteration
         batch = []
         for i, item in enumerate(dataset):
             prompt = self.build_prompt(item)
@@ -162,8 +224,8 @@ class RecipePredictor:
 class RAGRecipePredictor(RecipePredictor):
 
     def __init__(self, model="gpt-4o-mini", batch_size=1, max_tokens=4096, max_completion_tokens=16384, temperature=0, api_key=None, prompt_filename = "prompts/prediction_0209.txt",
-                 rag_topk: int = 5, retrieval_split: str = "train"):
-        super().__init__(model, batch_size, max_tokens, max_completion_tokens, temperature, api_key, prompt_filename)
+                 rag_topk: int = 5, retrieval_split: str = "train", gpt5_reasoning_effort="medium", gpt5_text_verbosity="medium"):
+        super().__init__(model, batch_size, max_tokens, max_completion_tokens, temperature, api_key, prompt_filename, gpt5_reasoning_effort, gpt5_text_verbosity)
         self.job_description = f"RAG material prediction job w/ {model}"
         if retrieval_split == "all":
             retrieval_set = load_dataset("wjsehdrnfl428/dataset_for_recipe_generator")
